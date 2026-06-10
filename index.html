@@ -1428,19 +1428,21 @@ footer {
       <h3 class="form-title">하늘下의 첫 번째 멤버가 되어<br>매칭 기회를 선점하세요!</h3>
       <p class="form-subtitle">사전 예약자에게는 오픈 첫날 프로필 부스터와<br>기업 광고 크레딧 특별 혜택이 제공됩니다.</p>
 
-      <form id="reserve-form" novalidate>
+      <form id="reserve-form" name="reservation" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="reservation">
+        <p style="display:none;"><input name="bot-field"></p>
 
         <!-- Role toggle -->
         <div class="toggle-group">
           <label class="toggle-option">
-            <input type="radio" name="role" value="jobseeker" checked>
+            <input type="radio" name="role" value="구직자·워홀러" checked>
             <div class="toggle-label">
               <span class="toggle-icon">🧳</span>
               <span class="toggle-text">구직자·워홀러로<br>참여</span>
             </div>
           </label>
           <label class="toggle-option">
-            <input type="radio" name="role" value="employer">
+            <input type="radio" name="role" value="기업·광고주">
             <div class="toggle-label">
               <span class="toggle-icon">🏢</span>
               <span class="toggle-text">기업 사장님·<br>광고주로 참여</span>
@@ -1702,9 +1704,22 @@ footer {
     if (!isValidEmail(email)) { shakeField(emailField); ok = false; }
     if (!ok) return;
 
-    // Show success modal
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    // Netlify Forms에 fetch로 전송
+    const formData = new FormData(form);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    })
+    .then(() => {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    })
+    .catch(() => {
+      // 전송 실패해도 모달은 표시 (UX 유지)
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
   });
 
   function closeModal() {
