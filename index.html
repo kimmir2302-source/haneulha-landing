@@ -6,6 +6,7 @@
 <title>하늘下 (Haneul-Ha) — 한일 스와이프 매칭 플랫폼</title>
 <meta name="description" content="같은 하늘 아래, 국경 없는 기회를 스와이프하다. 한일 최초의 쌍방향 스와이프 매칭 플랫폼.">
 
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Sans+JP:wght@300;400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -1209,9 +1210,11 @@ footer {
 
 <body>
 
+<!-- Background layers -->
 <div class="bg-layers"></div>
 <canvas id="star-canvas"></canvas>
 
+<!-- Navigation -->
 <nav>
   <a href="#" class="nav-logo">
     <span class="kanji">下</span> 하늘下
@@ -1219,8 +1222,10 @@ footer {
   <div class="nav-pill">사전예약 진행 중</div>
 </nav>
 
+<!-- Main content wrapper -->
 <div class="site-wrapper">
 
+  <!-- ── HERO ── -->
   <section class="hero">
     <div class="brand-vertical reveal">
       <span class="kr-top">하늘下</span>
@@ -1241,6 +1246,7 @@ footer {
       <strong>구직자·워홀러 매칭 100% 무료</strong>
     </p>
 
+    <!-- [수정] 데이터 변동을 위해 id를 부여하고 초기값을 0으로 설정했습니다. -->
     <div class="stats-strip reveal">
       <div class="stat-item">
         <span class="stat-num" id="stat-users">0</span>
@@ -1259,6 +1265,7 @@ footer {
 
   <div class="section-divider"></div>
 
+  <!-- ── PHONE DEMO ── -->
   <section class="demo-section">
     <div class="section-label reveal">App Preview</div>
     <h2 class="section-title reveal">이렇게 작동해요</h2>
@@ -1266,9 +1273,11 @@ footer {
 
     <div class="phone-scene">
 
+      <!-- Phone -->
       <div class="phone-wrapper reveal">
         <div class="phone-frame">
 
+          <!-- Notch -->
           <div class="phone-notch">
             <div class="notch-pill">
               <div class="notch-camera"></div>
@@ -1276,6 +1285,7 @@ footer {
             </div>
           </div>
 
+          <!-- Status bar -->
           <div class="phone-status">
             <span class="status-time">9:41</span>
             <div class="status-icons">
@@ -1285,6 +1295,7 @@ footer {
             </div>
           </div>
 
+          <!-- App header -->
           <div class="app-header">
             <span class="app-logo-text">하늘下</span>
             <div class="app-header-right">
@@ -1293,6 +1304,7 @@ footer {
             </div>
           </div>
 
+          <!-- Card area -->
           <div class="card-area">
             <div class="card-stack-bg"></div>
             <div class="card-stack-bg2"></div>
@@ -1332,6 +1344,7 @@ footer {
             </div>
           </div>
 
+          <!-- Bottom nav -->
           <div class="phone-bottom-nav">
             <div class="nav-item-phone">🔍<span>탐색</span></div>
             <div class="nav-item-phone active">✨<span>매칭</span></div>
@@ -1339,7 +1352,11 @@ footer {
             <div class="nav-item-phone">👤<span>프로필</span></div>
           </div>
 
-        </div></div><div class="swipe-buttons reveal">
+        </div><!-- /phone-frame -->
+      </div><!-- /phone-wrapper -->
+
+      <!-- Swipe action buttons -->
+      <div class="swipe-buttons reveal">
         <div class="swipe-btn btn-pass" id="btn-pass" title="Pass">
           <div class="btn-circle">✕</div>
           <span class="btn-label">Pass</span>
@@ -1354,10 +1371,12 @@ footer {
         </div>
       </div>
 
-    </div></section>
+    </div><!-- /phone-scene -->
+  </section>
 
   <div class="section-divider"></div>
 
+  <!-- ── FEATURES ── -->
   <section class="features-section">
     <div class="section-label reveal" style="text-align:center;">Why Haneul-Ha</div>
     <h2 class="section-title reveal">왜 하늘下인가요?</h2>
@@ -1391,3 +1410,347 @@ footer {
       <div class="feature-card reveal">
         <span class="feature-icon">⚡</span>
         <div class="feature-title">AI 매칭 스코어</div>
+        <div class="feature-desc">스킬, 언어 수준, 비자 조건, 근무 지역 선호를 AI가 분석해 나에게 딱 맞는 기업 카드를 우선 노출합니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── RESERVATION FORM ── -->
+  <section class="reserve-section" id="reserve">
+    <div class="section-label reveal" style="text-align:center;">Early Access</div>
+    <h2 class="section-title reveal" style="margin-bottom:48px;">첫 번째 멤버가 되세요</h2>
+
+    <div class="form-card reveal">
+      <div class="modal-confetti"></div>
+
+      <div class="form-eyebrow">무료 사전예약</div>
+      <h3 class="form-title">하늘下의 첫 번째 멤버가 되어<br>매칭 기회를 선점하세요!</h3>
+      <p class="form-subtitle">사전 예약자에게는 오픈 첫날 프로필 부스터와<br>기업 광고 크레딧 특별 혜택이 제공됩니다.</p>
+
+      <form id="reserve-form" novalidate>
+
+        <!-- Role toggle -->
+        <div class="toggle-group">
+          <label class="toggle-option">
+            <input type="radio" name="role" value="jobseeker" checked>
+            <div class="toggle-label">
+              <span class="toggle-icon">🧳</span>
+              <span class="toggle-text">구직자·워홀러로<br>참여</span>
+            </div>
+          </label>
+          <label class="toggle-option">
+            <input type="radio" name="role" value="employer">
+            <div class="toggle-label">
+              <span class="toggle-icon">🏢</span>
+              <span class="toggle-text">기업 사장님·<br>광고주로 참여</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Input fields -->
+        <div class="field-group">
+          <div class="field-wrap">
+            <span class="field-icon">✦</span>
+            <input
+              type="text"
+              id="field-name"
+              name="name"
+              placeholder="이름 또는 닉네임"
+              autocomplete="name"
+            >
+          </div>
+          <div class="field-wrap">
+            <span class="field-icon">✉</span>
+            <input
+              type="email"
+              id="field-email"
+              name="email"
+              placeholder="이메일 주소 (오픈 알림 수신)"
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="cta-btn" id="cta-btn">
+          🚀 무료로 사전 예약하고 오픈 알림 받기
+        </button>
+
+        <p class="form-note">스팸 없음 · 언제든 구독 취소 가능 · 100% 무료</p>
+      </form>
+    </div>
+  </section>
+
+</div><!-- /site-wrapper -->
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">하늘下</div>
+  <div class="footer-tagline">Same Sky · Borderless Opportunity</div>
+  <div class="footer-links">
+    <a href="#">서비스 소개</a>
+    <a href="#">기업 문의</a>
+    <a href="#">개인정보 처리방침</a>
+    <a href="#">이용약관</a>
+  </div>
+  <div class="footer-copy">© 2026 Haneul-Ha Inc. · 하늘下 · 서울 × 도쿄</div>
+</footer>
+
+<!-- ── SUCCESS MODAL ── -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="modal-confetti"></div>
+    <span class="modal-emoji">🎉</span>
+    <h2 class="modal-title" id="modal-title">사전 예약이<br>완료되었습니다!</h2>
+    <p class="modal-body">
+      입력하신 이메일로 <strong>가장 먼저 오픈 소식</strong>을 보내드릴게요.<br><br>
+      하늘下와 함께 국경 없는 기회의<br>첫 번째 주인공이 되어주셔서 감사합니다. 🇰🇷✨🇯🇵
+    </p>
+    <button class="modal-close" id="modal-close">확인했어요</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   STARFIELD
+═══════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('star-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, stars = [], raf;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    initStars();
+  }
+
+  function initStars() {
+    stars = [];
+    const count = Math.floor((W * H) / 6000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x:     Math.random() * W,
+        y:     Math.random() * H,
+        r:     Math.random() * 1.2 + 0.2,
+        alpha: Math.random() * 0.6 + 0.1,
+        speed: Math.random() * 0.3 + 0.05,
+        drift: (Math.random() - 0.5) * 0.1,
+        twinkle: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  function draw(ts) {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      s.twinkle += 0.012;
+      const a = s.alpha * (0.6 + 0.4 * Math.sin(s.twinkle));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220, 210, 255, ${a})`;
+      ctx.fill();
+      s.y -= s.speed;
+      s.x += s.drift;
+      if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; }
+      if (s.x < -2) s.x = W + 2;
+      if (s.x > W + 2) s.x = -2;
+    });
+    raf = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  raf = requestAnimationFrame(draw);
+})();
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+(function() {
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  items.forEach(el => io.observe(el));
+})();
+
+/* ═══════════════════════════════════════
+   SWIPE DEMO INTERACTION
+═══════════════════════════════════════ */
+(function() {
+  const card     = document.getElementById('swipe-card');
+  const hintLike = document.getElementById('hint-like');
+  const hintPass = document.getElementById('hint-pass');
+  const btnLike  = document.getElementById('btn-like');
+  const btnPass  = document.getElementById('btn-pass');
+  const btnSuper = document.getElementById('btn-super');
+
+  let isDragging = false, startX = 0, currentX = 0;
+
+  function showHint(type) {
+    hintLike.style.opacity = type === 'like' ? '1' : '0';
+    hintPass.style.opacity = type === 'pass' ? '1' : '0';
+  }
+  function resetCard() {
+    card.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+    card.style.transform = '';
+    showHint(null);
+    setTimeout(() => { card.style.transition = ''; }, 500);
+  }
+
+  function flyCard(dir) {
+    const tx = dir === 'like' ? 400 : -400;
+    card.style.transition = 'transform 0.45s ease-in, opacity 0.45s';
+    card.style.transform  = `translateX(${tx}px) rotate(${dir === 'like' ? 20 : -20}deg)`;
+    card.style.opacity    = '0';
+    showHint(dir);
+    setTimeout(() => { resetCard(); card.style.opacity = '1'; }, 680);
+  }
+
+  // Drag / touch on card
+  function onDragStart(e) {
+    if (e.type === 'touchstart') return; // handle separately
+    isDragging = true;
+    startX = e.clientX;
+    card.style.transition = 'none';
+    card.style.cursor = 'grabbing';
+  }
+  function onDragMove(e) {
+    if (!isDragging) return;
+    currentX = e.clientX - startX;
+    const rot = currentX * 0.08;
+    card.style.transform = `translateX(${currentX}px) rotate(${rot}deg)`;
+    if (currentX > 40)       showHint('like');
+    else if (currentX < -40) showHint('pass');
+    else                     showHint(null);
+  }
+  function onDragEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    card.style.cursor = 'grab';
+    if (currentX > 80)       flyCard('like');
+    else if (currentX < -80) flyCard('pass');
+    else                     resetCard();
+    currentX = 0;
+  }
+
+  card.addEventListener('mousedown', onDragStart);
+  window.addEventListener('mousemove', onDragMove);
+  window.addEventListener('mouseup',   onDragEnd);
+
+  // Touch events
+  card.addEventListener('touchstart', e => { startX = e.touches[0].clientX; card.style.transition = 'none'; }, { passive: true });
+  card.addEventListener('touchmove', e => {
+    currentX = e.touches[0].clientX - startX;
+    const rot = currentX * 0.08;
+    card.style.transform = `translateX(${currentX}px) rotate(${rot}deg)`;
+    if (currentX > 40) showHint('like'); else if (currentX < -40) showHint('pass'); else showHint(null);
+  }, { passive: true });
+  card.addEventListener('touchend', () => {
+    if (currentX > 80) flyCard('like');
+    else if (currentX < -80) flyCard('pass');
+    else resetCard();
+    currentX = 0;
+  });
+
+  // Buttons
+  btnLike.addEventListener('click',  () => flyCard('like'));
+  btnPass.addEventListener('click',  () => flyCard('pass'));
+  btnSuper.addEventListener('click', () => {
+    card.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s';
+    card.style.transform  = 'translateY(-350px) scale(0.8)';
+    card.style.opacity    = '0';
+    hintLike.style.opacity = '0'; hintPass.style.opacity = '0';
+    setTimeout(() => { resetCard(); card.style.opacity = '1'; }, 650);
+  });
+})();
+
+/* ═══════════════════════════════════════
+   FORM & MODAL & STATS COUNTER
+═══════════════════════════════════════ */
+(function() {
+  const form       = document.getElementById('reserve-form');
+  const modal      = document.getElementById('modal');
+  const closeBtn   = document.getElementById('modal-close');
+  const nameField  = document.getElementById('field-name');
+  const emailField = document.getElementById('field-email');
+  
+  // [수정] 상단 상태 전광판 엘리먼트 가져오기
+  const statUsers = document.getElementById('stat-users');
+  const statCompanies = document.getElementById('stat-companies');
+  
+  // 초기값 내부 변수 관리 (천 단위 콤마 포맷팅용)
+  let userCount = 0;
+  let companyCount = 0;
+
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  }
+  function shakeField(el) {
+    el.style.transition = 'transform 0.08s';
+    el.style.transform  = 'translateX(-6px)';
+    el.style.borderColor = 'rgba(244,114,182,0.7)';
+    setTimeout(() => { el.style.transform = 'translateX(6px)'; }, 80);
+    setTimeout(() => { el.style.transform = 'translateX(0)'; el.style.borderColor = ''; el.style.transition = ''; }, 160);
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name  = nameField.value.trim();
+    const email = emailField.value.trim();
+    let ok = true;
+
+    if (!name) { shakeField(nameField);  ok = false; }
+    if (!isValidEmail(email)) { shakeField(emailField); ok = false; }
+    if (!ok) return;
+
+    // [수정] 어떤 라디오 버튼(역할)이 선택되었는지 체크하여 상단 카운트 +1
+    const selectedRole = form.querySelector('input[name="role"]:checked').value;
+    if (selectedRole === 'jobseeker') {
+      userCount += 1;
+      statUsers.textContent = userCount.toLocaleString() + '+'; // 숫자가 커질 때를 대비한 콤마 포맷 적용
+    } else if (selectedRole === 'employer') {
+      companyCount += 1;
+      statCompanies.textContent = companyCount.toLocaleString() + '+';
+    }
+
+    // Show success modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    // Reset form
+    form.reset();
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+})();
+
+/* ═══════════════════════════════════════
+   SMOOTH NAV HEIGHT FIX ON MOBILE
+═══════════════════════════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+</body>
+</html>
