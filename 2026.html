@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>하늘下 (Haneul-Ha) — 한일 스와이프 매칭 플랫폼</title>
+<meta name="description" content="같은 하늘 아래, 국경 없는 기회를 스와이프하다. 한일 최초의 쌍방향 스와이프 매칭 플랫폼.">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Sans+JP:wght@300;400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* =============================================
+   DESIGN TOKENS
+   Palette: Deep Night Seoul × Neon Tokyo
+   #0A0B1A  -- abyss (background base)
+   #12102E  -- deep navy layer
+   #2D1B69  -- violet deep
+   #6B3FA0  -- amethyst
+   #C084FC  -- lavender glow
+   #F472B6  -- dawn pink
+   #E2E8F0  -- star white (text)
+   #94A3B8  -- moon gray (secondary text)
+   Accent:  #00FFD1  -- neon aqua (CTA)
+============================================= */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --abyss:      #0A0B1A;
+  --deep-navy:  #12102E;
+  --violet:     #2D1B69;
+  --amethyst:   #6B3FA0;
+  --lavender:   #C084FC;
+  --dawn-pink:  #F472B6;
+  --star-white: #E2E8F0;
+  --moon-gray:  #94A3B8;
+  --neon-aqua:  #00FFD1;
+  --neon-glow:  rgba(0, 255, 209, 0.25);
+
+  --font-display: 'Space Grotesk', 'Noto Sans KR', sans-serif;
+  --font-body:    'DM Sans', 'Noto Sans KR', sans-serif;
+  --font-jp:      'Noto Sans JP', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--abyss);
+  color: var(--star-white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── STARFIELD CANVAS ── */
+#star-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── GRADIENT BG LAYERS ── */
+.bg-layers {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.bg-layers::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(107, 63, 160, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 5%,  rgba(244, 114, 182, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 80% at 50% 100%,rgba(45, 27, 105, 0.6)  0%, transparent 70%),
+    linear-gradient(160deg, #0A0B1A 0%, #12102E 40%, #1a0f3a 70%, #0d0b1f 100%);
+}
+.bg-layers::after {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.08) 0%, transparent 70%);
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+  animation: pulseglow 8s ease-in-out infinite alternate;
+}
+@keyframes pulseglow {
+  from { transform: translateX(-50%) scale(1);   opacity: 0.5; }
+  to   { transform: translateX(-50%) scale(1.3); opacity: 1;   }
+}
+
+/* ── LAYOUT ── */
+.site-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10, 11, 26, 0.6);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(192, 132, 252, 0.1);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--star-white);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-logo .kanji {
+  font-family: var(--font-jp);
+  color: var(--lavender);
+  font-size: 22px;
+}
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(192, 132, 252, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--lavender);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.nav-pill::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--neon-aqua);
+  box-shadow: 0 0 6px var(--neon-aqua);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 160px 0 100px;
+  text-align: center;
+  position: relative;
+}
+
+/* Vertical brand name */
+.brand-vertical {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+  gap: 0;
+}
+.brand-vertical .kr-top {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: clamp(48px, 8vw, 80px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  background: linear-gradient(135deg, #E2E8F0 0%, #C084FC 50%, #F472B6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.brand-vertical .kanji-char {
+  font-family: var(--font-jp);
+  font-size: clamp(36px, 6vw, 60px);
+  font-weight: 300;
+  color: rgba(192, 132, 252, 0.5);
+  letter-spacing: 0.1em;
+  line-height: 1;
+  margin-top: -4px;
+}
+.brand-vertical .en-sub {
+  font-family: var(--font-display);
+  font-size: clamp(11px, 1.8vw, 14px);
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  color: var(--moon-gray);
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.hero-tag {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(0,255,209,0.1), rgba(192,132,252,0.1));
+  border: 1px solid rgba(0,255,209,0.25);
+  border-radius: 100px;
+  padding: 5px 18px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--neon-aqua);
+  margin-bottom: 28px;
+}
+
+.hero-headline {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: clamp(26px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--star-white);
+  margin-bottom: 24px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-headline .accent {
+  background: linear-gradient(90deg, var(--lavender), var(--dawn-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: clamp(13px, 2vw, 16px);
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--moon-gray);
+  max-width: 560px;
+  margin: 0 auto 48px;
+}
+.hero-sub strong {
+  color: var(--lavender);
+  font-weight: 500;
+}
+
+/* Stats strip */
+.stats-strip {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+.stat-item {
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--neon-aqua), var(--lavender));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+}
+.stat-label {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  color: var(--moon-gray);
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* ── DIVIDER ── */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(192,132,252,0.25), transparent);
+  margin: 80px 0;
+}
+
+/* ── PHONE DEMO ── */
+.demo-section {
+  padding: 20px 0 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--lavender);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 700;
+  color: var(--star-white);
+  text-align: center;
+  margin-bottom: 12px;
+}
+.section-desc {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  color: var(--moon-gray);
+  text-align: center;
+  margin-bottom: 56px;
+  max-width: 440px;
+}
+
+/* Phone frame */
+.phone-scene {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.phone-wrapper {
+  position: relative;
+  width: 300px;
+}
+
+/* Ambient glow behind phone */
+.phone-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(107,63,160,0.3), transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+  animation: phoneglow 6s ease-in-out infinite alternate;
+}
+@keyframes phoneglow {
+  from { opacity: 0.6; transform: scale(1); }
+  to   { opacity: 1;   transform: scale(1.05); }
+}
+
+.phone-frame {
+  position: relative;
+  z-index: 1;
+  width: 300px;
+  height: 600px;
+  background: #0d0c1f;
+  border-radius: 44px;
+  border: 2.5px solid rgba(192, 132, 252, 0.4);
+  box-shadow:
+    0 0 0 6px rgba(192,132,252,0.06),
+    0 0 60px rgba(107,63,160,0.5),
+    0 40px 80px rgba(10,11,26,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Phone notch */
+.phone-notch {
+  width: 100%;
+  padding: 14px 0 0;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.notch-pill {
+  width: 90px;
+  height: 28px;
+  background: #050508;
+  border-radius: 100px;
+  border: 1.5px solid rgba(192,132,252,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.notch-camera {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #1a1a2e;
+  border: 1.5px solid rgba(192,132,252,0.3);
+}
+.notch-sensor {
+  width: 24px; height: 4px;
+  border-radius: 2px;
+  background: #1a1a2e;
+}
+
+/* Phone status bar */
+.phone-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 20px;
+  flex-shrink: 0;
+}
+.status-time {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--star-white);
+}
+.status-icons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.status-icons span {
+  font-size: 11px;
+  color: var(--star-white);
+}
+
+/* App header inside phone */
+.app-header {
+  padding: 8px 18px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(192,132,252,0.1);
+  flex-shrink: 0;
+}
+.app-logo-text {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--lavender), var(--dawn-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.app-header-right {
+  display: flex;
+  gap: 10px;
+}
+.app-icon-btn {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(192,132,252,0.1);
+  border: 1px solid rgba(192,132,252,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+/* Card stack area */
+.card-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Stack cards behind */
+.card-stack-bg {
+  position: absolute;
+  top: 18px; left: 22px; right: 22px;
+  height: calc(100% - 28px);
+  background: rgba(255,255,255,0.03);
+  border-radius: 20px;
+  border: 1px solid rgba(192,132,252,0.08);
+  transform: rotate(3deg);
+}
+.card-stack-bg2 {
+  position: absolute;
+  top: 12px; left: 18px; right: 18px;
+  height: calc(100% - 22px);
+  background: rgba(255,255,255,0.04);
+  border-radius: 20px;
+  border: 1px solid rgba(192,132,252,0.12);
+  transform: rotate(-1.5deg);
+}
+
+/* Main swipe card */
+.swipe-card {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #1a1035 0%, #150d2e 60%, #1f0f40 100%);
+  border: 1px solid rgba(192,132,252,0.25);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  cursor: grab;
+  animation: cardFloat 5s ease-in-out infinite;
+}
+@keyframes cardFloat {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  33%      { transform: translateY(-4px) rotate(0.5deg); }
+  66%      { transform: translateY(2px) rotate(-0.3deg); }
+}
+.swipe-card:hover { animation: none; transform: scale(1.02) rotate(-1deg); }
+
+/* Premium badge on card */
+.card-premium-badge {
+  position: absolute;
+  top: 14px; left: 14px;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #1a0f00;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+}
+.badge-star { font-size: 9px; }
+
+/* Card image area (abstract visual) */
+.card-visual {
+  height: 160px;
+  background:
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(192,132,252,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 20% 80%, rgba(0,255,209,0.15) 0%, transparent 50%),
+    linear-gradient(135deg, #1e0a40 0%, #0f1a3a 50%, #1a0d35 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-visual-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+.company-logo-placeholder {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(192,132,252,0.3), rgba(0,255,209,0.15));
+  border: 1.5px solid rgba(192,132,252,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 0 20px rgba(192,132,252,0.3);
+}
+.company-name-jp {
+  font-family: var(--font-jp);
+  font-size: 11px;
+  color: rgba(192,132,252,0.8);
+  letter-spacing: 0.08em;
+}
+
+/* Tokyo tower silhouette decoration */
+.card-visual::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 30px; height: 60px;
+  background: rgba(192,132,252,0.06);
+  clip-path: polygon(40% 0%, 60% 0%, 65% 100%, 35% 100%);
+}
+
+/* Card body */
+.card-body {
+  padding: 14px 16px 16px;
+}
+.card-company {
+  font-family: var(--font-jp);
+  font-size: 11px;
+  color: var(--moon-gray);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.card-headline {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--star-white);
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.card-tag {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: 100px;
+  border: 1px solid rgba(192,132,252,0.3);
+  color: var(--lavender);
+  background: rgba(192,132,252,0.06);
+}
+.card-tag.aqua {
+  border-color: rgba(0,255,209,0.3);
+  color: var(--neon-aqua);
+  background: rgba(0,255,209,0.05);
+}
+
+/* Match score */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(192,132,252,0.1);
+  padding-top: 10px;
+}
+.match-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.match-bar {
+  width: 60px; height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.match-fill {
+  height: 100%;
+  width: 88%;
+  background: linear-gradient(90deg, var(--neon-aqua), var(--lavender));
+  border-radius: 2px;
+}
+.match-pct {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--neon-aqua);
+}
+.match-label {
+  font-size: 9px;
+  color: var(--moon-gray);
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+}
+.card-location {
+  font-size: 9px;
+  color: var(--moon-gray);
+  font-family: var(--font-display);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* LIKE/PASS indicators on card */
+.swipe-hint-like {
+  position: absolute;
+  top: 20px; right: 10px;
+  background: rgba(0,255,209,0.15);
+  border: 2px solid var(--neon-aqua);
+  color: var(--neon-aqua);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 8px;
+  transform: rotate(15deg);
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+  pointer-events: none;
+}
+.swipe-hint-pass {
+  position: absolute;
+  top: 20px; left: 10px;
+  background: rgba(244,114,182,0.15);
+  border: 2px solid var(--dawn-pink);
+  color: var(--dawn-pink);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 8px;
+  transform: rotate(-15deg);
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Phone bottom nav */
+.phone-bottom-nav {
+  padding: 8px 20px 16px;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid rgba(192,132,252,0.1);
+  flex-shrink: 0;
+}
+.nav-item-phone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+.nav-item-phone.active { opacity: 1; }
+.nav-item-phone span {
+  font-size: 8px;
+  font-family: var(--font-display);
+  color: var(--moon-gray);
+  letter-spacing: 0.05em;
+}
+.nav-item-phone.active span { color: var(--lavender); }
+
+/* Swipe action buttons below phone */
+.swipe-buttons {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.swipe-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.swipe-btn:hover { transform: scale(1.1); }
+.swipe-btn:active { transform: scale(0.95); }
+
+.btn-circle {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  transition: box-shadow 0.2s;
+}
+.btn-pass .btn-circle {
+  background: rgba(244,114,182,0.1);
+  border: 2px solid rgba(244,114,182,0.4);
+  box-shadow: 0 0 20px rgba(244,114,182,0.15);
+}
+.btn-pass:hover .btn-circle {
+  box-shadow: 0 0 30px rgba(244,114,182,0.4);
+  background: rgba(244,114,182,0.18);
+}
+.btn-like .btn-circle {
+  background: rgba(0,255,209,0.08);
+  border: 2px solid rgba(0,255,209,0.4);
+  box-shadow: 0 0 20px rgba(0,255,209,0.15);
+}
+.btn-like:hover .btn-circle {
+  box-shadow: 0 0 30px rgba(0,255,209,0.4);
+  background: rgba(0,255,209,0.15);
+}
+.btn-super .btn-circle {
+  width: 50px; height: 50px;
+  background: rgba(192,132,252,0.1);
+  border: 2px solid rgba(192,132,252,0.4);
+  font-size: 20px;
+  box-shadow: 0 0 20px rgba(192,132,252,0.15);
+}
+.btn-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.btn-pass .btn-label  { color: var(--dawn-pink); }
+.btn-like .btn-label  { color: var(--neon-aqua); }
+.btn-super .btn-label { color: var(--lavender); font-size: 10px; }
+
+/* ── VALUE PROPS ── */
+.features-section {
+  padding: 20px 0 80px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 48px;
+}
+.feature-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(192,132,252,0.1);
+  border-radius: 20px;
+  padding: 28px 24px;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(192,132,252,0.04), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover { border-color: rgba(192,132,252,0.3); transform: translateY(-4px); }
+.feature-card:hover::before { opacity: 1; }
+.feature-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
+.feature-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--star-white);
+  margin-bottom: 8px;
+}
+.feature-desc {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--moon-gray);
+  line-height: 1.8;
+}
+
+/* ── RESERVATION FORM ── */
+.reserve-section {
+  padding: 20px 0 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 560px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(192,132,252,0.2);
+  border-radius: 28px;
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(107,63,160,0.15);
+}
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(192,132,252,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.form-eyebrow {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--neon-aqua);
+  margin-bottom: 12px;
+  text-align: center;
+}
+.form-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700;
+  color: var(--star-white);
+  text-align: center;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.form-subtitle {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  color: var(--moon-gray);
+  text-align: center;
+  margin-bottom: 36px;
+  line-height: 1.7;
+}
+
+/* Toggle */
+.toggle-group {
+  display: flex;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(192,132,252,0.15);
+  border-radius: 14px;
+  padding: 4px;
+  margin-bottom: 20px;
+  gap: 4px;
+}
+.toggle-option {
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+}
+.toggle-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+.toggle-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border-radius: 10px;
+  transition: background 0.3s, color 0.3s;
+  cursor: pointer;
+  user-select: none;
+}
+.toggle-icon { font-size: 20px; margin-bottom: 4px; }
+.toggle-text {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--moon-gray);
+  text-align: center;
+  line-height: 1.4;
+  transition: color 0.3s;
+}
+.toggle-option input:checked + .toggle-label {
+  background: linear-gradient(135deg, rgba(192,132,252,0.2), rgba(244,114,182,0.1));
+}
+.toggle-option input:checked + .toggle-label .toggle-text {
+  color: var(--star-white);
+}
+
+/* Input fields */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.field-wrap {
+  position: relative;
+}
+.field-wrap input {
+  width: 100%;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(192,132,252,0.18);
+  border-radius: 14px;
+  padding: 16px 20px 16px 48px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  color: var(--star-white);
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  -webkit-appearance: none;
+}
+.field-wrap input::placeholder {
+  color: rgba(148,163,184,0.5);
+}
+.field-wrap input:focus {
+  border-color: rgba(192,132,252,0.5);
+  box-shadow: 0 0 0 3px rgba(192,132,252,0.08), 0 0 20px rgba(192,132,252,0.1);
+}
+.field-icon {
+  position: absolute;
+  left: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* CTA Button */
+.cta-btn {
+  width: 100%;
+  position: relative;
+  background: linear-gradient(135deg, #6B3FA0 0%, #a855f7 50%, #C084FC 100%);
+  border: none;
+  border-radius: 14px;
+  padding: 18px 24px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: transform 0.2s, box-shadow 0.3s;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(107,63,160,0.4);
+}
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,255,209,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.cta-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -60%;
+  width: 40%; height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s;
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(107,63,160,0.6), 0 0 60px rgba(192,132,252,0.2);
+}
+.cta-btn:hover::before { opacity: 1; }
+.cta-btn:hover::after  { left: 120%; }
+.cta-btn:active { transform: translateY(0); }
+
+/* Form note */
+.form-note {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  color: rgba(148,163,184,0.5);
+  text-align: center;
+  margin-top: 16px;
+}
+
+/* ── POPUP MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal-box {
+  background: linear-gradient(145deg, #1a1035, #150d2e);
+  border: 1px solid rgba(192,132,252,0.3);
+  border-radius: 28px;
+  padding: 48px 40px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 100px rgba(107,63,160,0.4);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  overflow: hidden;
+}
+.modal-overlay.active .modal-box {
+  transform: scale(1) translateY(0);
+}
+.modal-box::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(0,255,209,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.modal-emoji {
+  font-size: 56px;
+  display: block;
+  margin-bottom: 20px;
+  animation: bounceIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
+}
+@keyframes bounceIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.modal-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--star-white);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+.modal-body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--moon-gray);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+.modal-body strong { color: var(--lavender); font-weight: 500; }
+.modal-close {
+  background: rgba(192,132,252,0.12);
+  border: 1px solid rgba(192,132,252,0.25);
+  border-radius: 12px;
+  padding: 14px 32px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--star-white);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.modal-close:hover {
+  background: rgba(192,132,252,0.22);
+  border-color: rgba(192,132,252,0.45);
+}
+.modal-confetti {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--neon-aqua), var(--lavender), var(--dawn-pink));
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid rgba(192,132,252,0.08);
+  padding: 40px 40px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--lavender), var(--dawn-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+.footer-tagline {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--moon-gray);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.footer-links a {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  color: rgba(148,163,184,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--lavender); }
+.footer-copy {
+  font-size: 11px;
+  color: rgba(148,163,184,0.3);
+  font-family: var(--font-display);
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  nav { padding: 16px 20px; }
+  .hero { padding: 120px 0 60px; }
+  .form-card { padding: 32px 24px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .toggle-text { font-size: 10px; }
+  .stats-strip { gap: 28px; }
+  footer { padding: 40px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background layers -->
+<div class="bg-layers"></div>
+<canvas id="star-canvas"></canvas>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="kanji">下</span> 하늘下
+  </a>
+  <div class="nav-pill">사전예약 진행 중</div>
+</nav>
+
+<!-- Main content wrapper -->
+<div class="site-wrapper">
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="brand-vertical reveal">
+      <span class="kr-top">하늘下</span>
+      <span class="kanji-char">天</span>
+      <span class="en-sub">Haneul-Ha</span>
+    </div>
+
+    <div class="hero-tag reveal">🇰🇷 × 🇯🇵 &nbsp;·&nbsp; 한일 최초 스와이프 매칭</div>
+
+    <h1 class="hero-headline reveal">
+      같은 하늘 아래,<br>
+      <span class="accent">국경 없는 기회</span>를 스와이프하다.
+    </h1>
+
+    <p class="hero-sub reveal">
+      마이나비의 지루한 이력서는 끝.<br>
+      인스타 피드 보듯 힙한 기업과 인재를 <strong>쌍방향으로 매칭</strong>하는 한일 최초의 스와이프 플랫폼.<br>
+      <strong>구직자·워홀러 매칭 100% 무료</strong>
+    </p>
+
+    <div class="stats-strip reveal">
+      <div class="stat-item">
+        <span class="stat-num">3,200+</span>
+        <span class="stat-label">사전예약 인원</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">180+</span>
+        <span class="stat-label">참여 기업</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2026</span>
+        <span class="stat-label">오픈 예정</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── PHONE DEMO ── -->
+  <section class="demo-section">
+    <div class="section-label reveal">App Preview</div>
+    <h2 class="section-title reveal">이렇게 작동해요</h2>
+    <p class="section-desc reveal">직관적인 스와이프 UI로 마음에 드는 기업·인재를 즉시 매칭.</p>
+
+    <div class="phone-scene">
+
+      <!-- Phone -->
+      <div class="phone-wrapper reveal">
+        <div class="phone-frame">
+
+          <!-- Notch -->
+          <div class="phone-notch">
+            <div class="notch-pill">
+              <div class="notch-camera"></div>
+              <div class="notch-sensor"></div>
+            </div>
+          </div>
+
+          <!-- Status bar -->
+          <div class="phone-status">
+            <span class="status-time">9:41</span>
+            <div class="status-icons">
+              <span>▌▌▌</span>
+              <span>WiFi</span>
+              <span>🔋</span>
+            </div>
+          </div>
+
+          <!-- App header -->
+          <div class="app-header">
+            <span class="app-logo-text">하늘下</span>
+            <div class="app-header-right">
+              <div class="app-icon-btn">🔔</div>
+              <div class="app-icon-btn">💬</div>
+            </div>
+          </div>
+
+          <!-- Card area -->
+          <div class="card-area">
+            <div class="card-stack-bg"></div>
+            <div class="card-stack-bg2"></div>
+
+            <div class="swipe-card" id="swipe-card">
+              <div class="swipe-hint-like" id="hint-like">LIKE 👍</div>
+              <div class="swipe-hint-pass" id="hint-pass">PASS 👋</div>
+
+              <div class="card-premium-badge">
+                <span class="badge-star">⭐</span> PREMIUM AD
+              </div>
+
+              <div class="card-visual">
+                <div class="card-visual-inner">
+                  <div class="company-logo-placeholder">🎨</div>
+                  <span class="company-name-jp">東京クリエイティブラボ</span>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="card-company">(株) TOKYO CREATIVE LABORATORY</div>
+                <div class="card-headline">"한국의 센스 있는 디자이너,<br>우리 팀으로 스와이프하세요!"</div>
+                <div class="card-tags">
+                  <span class="card-tag">🗼 시부야 근무</span>
+                  <span class="card-tag aqua">✈️ 비자 지원</span>
+                  <span class="card-tag">🎸 힙한 스타트업</span>
+                </div>
+                <div class="card-footer">
+                  <div class="match-score">
+                    <span class="match-label">매칭</span>
+                    <div class="match-bar"><div class="match-fill"></div></div>
+                    <span class="match-pct">88%</span>
+                  </div>
+                  <div class="card-location">📍 渋谷区</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom nav -->
+          <div class="phone-bottom-nav">
+            <div class="nav-item-phone">🔍<span>탐색</span></div>
+            <div class="nav-item-phone active">✨<span>매칭</span></div>
+            <div class="nav-item-phone">💌<span>메시지</span></div>
+            <div class="nav-item-phone">👤<span>프로필</span></div>
+          </div>
+
+        </div><!-- /phone-frame -->
+      </div><!-- /phone-wrapper -->
+
+      <!-- Swipe action buttons -->
+      <div class="swipe-buttons reveal">
+        <div class="swipe-btn btn-pass" id="btn-pass" title="Pass">
+          <div class="btn-circle">✕</div>
+          <span class="btn-label">Pass</span>
+        </div>
+        <div class="swipe-btn btn-super" id="btn-super" title="Super Like">
+          <div class="btn-circle">⭐</div>
+          <span class="btn-label">Super</span>
+        </div>
+        <div class="swipe-btn btn-like" id="btn-like" title="Like">
+          <div class="btn-circle">♡</div>
+          <span class="btn-label">Like</span>
+        </div>
+      </div>
+
+    </div><!-- /phone-scene -->
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── FEATURES ── -->
+  <section class="features-section">
+    <div class="section-label reveal" style="text-align:center;">Why Haneul-Ha</div>
+    <h2 class="section-title reveal">왜 하늘下인가요?</h2>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <span class="feature-icon">📱</span>
+        <div class="feature-title">스와이프로 끝나는 지원</div>
+        <div class="feature-desc">마음에 드는 기업은 오른쪽, 아닌 건 왼쪽. 길고 지루한 이력서 제출 없이 내 프로필 카드 하나로 매칭이 시작됩니다.</div>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🔄</span>
+        <div class="feature-title">쌍방향 매칭 시스템</div>
+        <div class="feature-desc">구직자만 지원하는 게 아닙니다. 기업도 인재를 탐색하고 먼저 스와이프할 수 있어요. 양쪽 모두 Like하면 즉시 채팅 연결.</div>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🇯🇵</span>
+        <div class="feature-title">워홀·취업비자 전문 지원</div>
+        <div class="feature-desc">워킹홀리데이부터 취업비자 스폰서십까지. 비자 지원 여부를 카드에서 바로 확인. 일본 진출의 첫 걸음을 쉽게.</div>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">💎</span>
+        <div class="feature-title">프리미엄 기업 광고 카드</div>
+        <div class="feature-desc">기업은 피드 최상단 노출되는 프리미엄 광고 카드로 최고의 인재를 먼저 만납니다. 구인 광고의 새로운 패러다임.</div>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🆓</span>
+        <div class="feature-title">구직자·워홀러 100% 무료</div>
+        <div class="feature-desc">구직자와 워홀러의 모든 기능은 영원히 무료입니다. 매칭, 채팅, 프로필 부스터까지. 숨겨진 비용 없음.</div>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">⚡</span>
+        <div class="feature-title">AI 매칭 스코어</div>
+        <div class="feature-desc">스킬, 언어 수준, 비자 조건, 근무 지역 선호를 AI가 분석해 나에게 딱 맞는 기업 카드를 우선 노출합니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── RESERVATION FORM ── -->
+  <section class="reserve-section" id="reserve">
+    <div class="section-label reveal" style="text-align:center;">Early Access</div>
+    <h2 class="section-title reveal" style="margin-bottom:48px;">첫 번째 멤버가 되세요</h2>
+
+    <div class="form-card reveal">
+      <div class="modal-confetti"></div>
+
+      <div class="form-eyebrow">무료 사전예약</div>
+      <h3 class="form-title">하늘下의 첫 번째 멤버가 되어<br>매칭 기회를 선점하세요!</h3>
+      <p class="form-subtitle">사전 예약자에게는 오픈 첫날 프로필 부스터와<br>기업 광고 크레딧 특별 혜택이 제공됩니다.</p>
+
+      <form id="reserve-form" novalidate>
+
+        <!-- Role toggle -->
+        <div class="toggle-group">
+          <label class="toggle-option">
+            <input type="radio" name="role" value="jobseeker" checked>
+            <div class="toggle-label">
+              <span class="toggle-icon">🧳</span>
+              <span class="toggle-text">구직자·워홀러로<br>참여</span>
+            </div>
+          </label>
+          <label class="toggle-option">
+            <input type="radio" name="role" value="employer">
+            <div class="toggle-label">
+              <span class="toggle-icon">🏢</span>
+              <span class="toggle-text">기업 사장님·<br>광고주로 참여</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Input fields -->
+        <div class="field-group">
+          <div class="field-wrap">
+            <span class="field-icon">✦</span>
+            <input
+              type="text"
+              id="field-name"
+              name="name"
+              placeholder="이름 또는 닉네임"
+              autocomplete="name"
+            >
+          </div>
+          <div class="field-wrap">
+            <span class="field-icon">✉</span>
+            <input
+              type="email"
+              id="field-email"
+              name="email"
+              placeholder="이메일 주소 (오픈 알림 수신)"
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="cta-btn" id="cta-btn">
+          🚀 무료로 사전 예약하고 오픈 알림 받기
+        </button>
+
+        <p class="form-note">스팸 없음 · 언제든 구독 취소 가능 · 100% 무료</p>
+      </form>
+    </div>
+  </section>
+
+</div><!-- /site-wrapper -->
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">하늘下</div>
+  <div class="footer-tagline">Same Sky · Borderless Opportunity</div>
+  <div class="footer-links">
+    <a href="#">서비스 소개</a>
+    <a href="#">기업 문의</a>
+    <a href="#">개인정보 처리방침</a>
+    <a href="#">이용약관</a>
+  </div>
+  <div class="footer-copy">© 2026 Haneul-Ha Inc. · 하늘下 · 서울 × 도쿄</div>
+</footer>
+
+<!-- ── SUCCESS MODAL ── -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="modal-confetti"></div>
+    <span class="modal-emoji">🎉</span>
+    <h2 class="modal-title" id="modal-title">사전 예약이<br>완료되었습니다!</h2>
+    <p class="modal-body">
+      입력하신 이메일로 <strong>가장 먼저 오픈 소식</strong>을 보내드릴게요.<br><br>
+      하늘下와 함께 국경 없는 기회의<br>첫 번째 주인공이 되어주셔서 감사합니다. 🇰🇷✨🇯🇵
+    </p>
+    <button class="modal-close" id="modal-close">확인했어요</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   STARFIELD
+═══════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('star-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, stars = [], raf;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    initStars();
+  }
+
+  function initStars() {
+    stars = [];
+    const count = Math.floor((W * H) / 6000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x:     Math.random() * W,
+        y:     Math.random() * H,
+        r:     Math.random() * 1.2 + 0.2,
+        alpha: Math.random() * 0.6 + 0.1,
+        speed: Math.random() * 0.3 + 0.05,
+        drift: (Math.random() - 0.5) * 0.1,
+        twinkle: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  function draw(ts) {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      s.twinkle += 0.012;
+      const a = s.alpha * (0.6 + 0.4 * Math.sin(s.twinkle));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220, 210, 255, ${a})`;
+      ctx.fill();
+      s.y -= s.speed;
+      s.x += s.drift;
+      if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; }
+      if (s.x < -2) s.x = W + 2;
+      if (s.x > W + 2) s.x = -2;
+    });
+    raf = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  raf = requestAnimationFrame(draw);
+})();
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+(function() {
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  items.forEach(el => io.observe(el));
+})();
+
+/* ═══════════════════════════════════════
+   SWIPE DEMO INTERACTION
+═══════════════════════════════════════ */
+(function() {
+  const card     = document.getElementById('swipe-card');
+  const hintLike = document.getElementById('hint-like');
+  const hintPass = document.getElementById('hint-pass');
+  const btnLike  = document.getElementById('btn-like');
+  const btnPass  = document.getElementById('btn-pass');
+  const btnSuper = document.getElementById('btn-super');
+
+  let isDragging = false, startX = 0, currentX = 0;
+
+  function showHint(type) {
+    hintLike.style.opacity = type === 'like' ? '1' : '0';
+    hintPass.style.opacity = type === 'pass' ? '1' : '0';
+  }
+  function resetCard() {
+    card.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+    card.style.transform = '';
+    showHint(null);
+    setTimeout(() => { card.style.transition = ''; }, 500);
+  }
+
+  function flyCard(dir) {
+    const tx = dir === 'like' ? 400 : -400;
+    card.style.transition = 'transform 0.45s ease-in, opacity 0.45s';
+    card.style.transform  = `translateX(${tx}px) rotate(${dir === 'like' ? 20 : -20}deg)`;
+    card.style.opacity    = '0';
+    showHint(dir);
+    setTimeout(() => { resetCard(); card.style.opacity = '1'; }, 680);
+  }
+
+  // Drag / touch on card
+  function onDragStart(e) {
+    if (e.type === 'touchstart') return; // handle separately
+    isDragging = true;
+    startX = e.clientX;
+    card.style.transition = 'none';
+    card.style.cursor = 'grabbing';
+  }
+  function onDragMove(e) {
+    if (!isDragging) return;
+    currentX = e.clientX - startX;
+    const rot = currentX * 0.08;
+    card.style.transform = `translateX(${currentX}px) rotate(${rot}deg)`;
+    if (currentX > 40)       showHint('like');
+    else if (currentX < -40) showHint('pass');
+    else                     showHint(null);
+  }
+  function onDragEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    card.style.cursor = 'grab';
+    if (currentX > 80)       flyCard('like');
+    else if (currentX < -80) flyCard('pass');
+    else                     resetCard();
+    currentX = 0;
+  }
+
+  card.addEventListener('mousedown', onDragStart);
+  window.addEventListener('mousemove', onDragMove);
+  window.addEventListener('mouseup',   onDragEnd);
+
+  // Touch events
+  card.addEventListener('touchstart', e => { startX = e.touches[0].clientX; card.style.transition = 'none'; }, { passive: true });
+  card.addEventListener('touchmove', e => {
+    currentX = e.touches[0].clientX - startX;
+    const rot = currentX * 0.08;
+    card.style.transform = `translateX(${currentX}px) rotate(${rot}deg)`;
+    if (currentX > 40) showHint('like'); else if (currentX < -40) showHint('pass'); else showHint(null);
+  }, { passive: true });
+  card.addEventListener('touchend', () => {
+    if (currentX > 80) flyCard('like');
+    else if (currentX < -80) flyCard('pass');
+    else resetCard();
+    currentX = 0;
+  });
+
+  // Buttons
+  btnLike.addEventListener('click',  () => flyCard('like'));
+  btnPass.addEventListener('click',  () => flyCard('pass'));
+  btnSuper.addEventListener('click', () => {
+    card.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s';
+    card.style.transform  = 'translateY(-350px) scale(0.8)';
+    card.style.opacity    = '0';
+    hintLike.style.opacity = '0'; hintPass.style.opacity = '0';
+    setTimeout(() => { resetCard(); card.style.opacity = '1'; }, 650);
+  });
+})();
+
+/* ═══════════════════════════════════════
+   FORM & MODAL
+═══════════════════════════════════════ */
+(function() {
+  const form       = document.getElementById('reserve-form');
+  const modal      = document.getElementById('modal');
+  const closeBtn   = document.getElementById('modal-close');
+  const nameField  = document.getElementById('field-name');
+  const emailField = document.getElementById('field-email');
+
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  }
+  function shakeField(el) {
+    el.style.transition = 'transform 0.08s';
+    el.style.transform  = 'translateX(-6px)';
+    el.style.borderColor = 'rgba(244,114,182,0.7)';
+    setTimeout(() => { el.style.transform = 'translateX(6px)'; }, 80);
+    setTimeout(() => { el.style.transform = 'translateX(0)'; el.style.borderColor = ''; el.style.transition = ''; }, 160);
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name  = nameField.value.trim();
+    const email = emailField.value.trim();
+    let ok = true;
+
+    if (!name) { shakeField(nameField);  ok = false; }
+    if (!isValidEmail(email)) { shakeField(emailField); ok = false; }
+    if (!ok) return;
+
+    // Show success modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    // Reset form
+    form.reset();
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+})();
+
+/* ═══════════════════════════════════════
+   SMOOTH NAV HEIGHT FIX ON MOBILE
+═══════════════════════════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+</body>
+</html>
