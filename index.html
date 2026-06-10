@@ -6,10 +6,9 @@
 <title>하늘下 (Haneul-Ha) — 한일 스와이프 매칭 플랫폼</title>
 <meta name="description" content="같은 하늘 아래, 국경 없는 기회를 스와이프하다. 한일 최초의 쌍방향 스와이프 매칭 플랫폼.">
 
-<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Sans+JP:wght@300;400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Sans+JP:wght@300;400;700&family=DM+Sans:ital,wght=0,300;0,400;0,500;0,700;1,300&family=Space+Grotesk:wght=300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
 /* =============================================
@@ -1210,11 +1209,9 @@ footer {
 
 <body>
 
-<!-- Background layers -->
 <div class="bg-layers"></div>
 <canvas id="star-canvas"></canvas>
 
-<!-- Navigation -->
 <nav>
   <a href="#" class="nav-logo">
     <span class="kanji">下</span> 하늘下
@@ -1222,10 +1219,8 @@ footer {
   <div class="nav-pill">사전예약 진행 중</div>
 </nav>
 
-<!-- Main content wrapper -->
 <div class="site-wrapper">
 
-  <!-- ── HERO ── -->
   <section class="hero">
     <div class="brand-vertical reveal">
       <span class="kr-top">하늘下</span>
@@ -1248,11 +1243,11 @@ footer {
 
     <div class="stats-strip reveal">
       <div class="stat-item">
-        <span class="stat-num">3,200+</span>
+        <span class="stat-num" id="stat-jobseekers" data-target="3240">0</span>
         <span class="stat-label">사전예약 인원</span>
       </div>
       <div class="stat-item">
-        <span class="stat-num">180+</span>
+        <span class="stat-num" id="stat-employers" data-target="184">0</span>
         <span class="stat-label">참여 기업</span>
       </div>
       <div class="stat-item">
@@ -1264,27 +1259,20 @@ footer {
 
   <div class="section-divider"></div>
 
-  <!-- ── PHONE DEMO ── -->
   <section class="demo-section">
     <div class="section-label reveal">App Preview</div>
     <h2 class="section-title reveal">이렇게 작동해요</h2>
     <p class="section-desc reveal">직관적인 스와이프 UI로 마음에 드는 기업·인재를 즉시 매칭.</p>
 
     <div class="phone-scene">
-
-      <!-- Phone -->
       <div class="phone-wrapper reveal">
         <div class="phone-frame">
-
-          <!-- Notch -->
           <div class="phone-notch">
             <div class="notch-pill">
               <div class="notch-camera"></div>
               <div class="notch-sensor"></div>
             </div>
           </div>
-
-          <!-- Status bar -->
           <div class="phone-status">
             <span class="status-time">9:41</span>
             <div class="status-icons">
@@ -1293,8 +1281,6 @@ footer {
               <span>🔋</span>
             </div>
           </div>
-
-          <!-- App header -->
           <div class="app-header">
             <span class="app-logo-text">하늘下</span>
             <div class="app-header-right">
@@ -1302,27 +1288,21 @@ footer {
               <div class="app-icon-btn">💬</div>
             </div>
           </div>
-
-          <!-- Card area -->
           <div class="card-area">
             <div class="card-stack-bg"></div>
             <div class="card-stack-bg2"></div>
-
             <div class="swipe-card" id="swipe-card">
               <div class="swipe-hint-like" id="hint-like">LIKE 👍</div>
               <div class="swipe-hint-pass" id="hint-pass">PASS 👋</div>
-
               <div class="card-premium-badge">
                 <span class="badge-star">⭐</span> PREMIUM AD
               </div>
-
               <div class="card-visual">
                 <div class="card-visual-inner">
                   <div class="company-logo-placeholder">🎨</div>
                   <span class="company-name-jp">東京クリエイティブラボ</span>
                 </div>
               </div>
-
               <div class="card-body">
                 <div class="card-company">(株) TOKYO CREATIVE LABORATORY</div>
                 <div class="card-headline">"한국의 센스 있는 디자이너,<br>우리 팀으로 스와이프하세요!"</div>
@@ -1342,19 +1322,14 @@ footer {
               </div>
             </div>
           </div>
-
-          <!-- Bottom nav -->
           <div class="phone-bottom-nav">
             <div class="nav-item-phone">🔍<span>탐색</span></div>
             <div class="nav-item-phone active">✨<span>매칭</span></div>
             <div class="nav-item-phone">💌<span>메시지</span></div>
             <div class="nav-item-phone">👤<span>프로필</span></div>
           </div>
-
-        </div><!-- /phone-frame -->
-      </div><!-- /phone-wrapper -->
-
-      <!-- Swipe action buttons -->
+        </div>
+      </div>
       <div class="swipe-buttons reveal">
         <div class="swipe-btn btn-pass" id="btn-pass" title="Pass">
           <div class="btn-circle">✕</div>
@@ -1369,17 +1344,14 @@ footer {
           <span class="btn-label">Like</span>
         </div>
       </div>
-
-    </div><!-- /phone-scene -->
+    </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <!-- ── FEATURES ── -->
   <section class="features-section">
     <div class="section-label reveal" style="text-align:center;">Why Haneul-Ha</div>
     <h2 class="section-title reveal">왜 하늘下인가요?</h2>
-
     <div class="features-grid">
       <div class="feature-card reveal">
         <span class="feature-icon">📱</span>
@@ -1416,33 +1388,27 @@ footer {
 
   <div class="section-divider"></div>
 
-  <!-- ── RESERVATION FORM ── -->
   <section class="reserve-section" id="reserve">
     <div class="section-label reveal" style="text-align:center;">Early Access</div>
     <h2 class="section-title reveal" style="margin-bottom:48px;">첫 번째 멤버가 되세요</h2>
 
     <div class="form-card reveal">
       <div class="modal-confetti"></div>
-
       <div class="form-eyebrow">무료 사전예약</div>
       <h3 class="form-title">하늘下의 첫 번째 멤버가 되어<br>매칭 기회를 선점하세요!</h3>
       <p class="form-subtitle">사전 예약자에게는 오픈 첫날 프로필 부스터와<br>기업 광고 크레딧 특별 혜택이 제공됩니다.</p>
 
-      <form id="reserve-form" name="reservation" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-        <input type="hidden" name="form-name" value="reservation">
-        <p style="display:none;"><input name="bot-field"></p>
-
-        <!-- Role toggle -->
+      <form id="reserve-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
         <div class="toggle-group">
           <label class="toggle-option">
-            <input type="radio" name="role" value="구직자·워홀러" checked>
+            <input type="radio" name="참여유형_Role" value="구직자/워홀러" checked>
             <div class="toggle-label">
               <span class="toggle-icon">🧳</span>
               <span class="toggle-text">구직자·워홀러로<br>참여</span>
             </div>
           </label>
           <label class="toggle-option">
-            <input type="radio" name="role" value="기업·광고주">
+            <input type="radio" name="참여유형_Role" value="기업/광고주">
             <div class="toggle-label">
               <span class="toggle-icon">🏢</span>
               <span class="toggle-text">기업 사장님·<br>광고주로 참여</span>
@@ -1450,42 +1416,27 @@ footer {
           </label>
         </div>
 
-        <!-- Input fields -->
         <div class="field-group">
           <div class="field-wrap">
             <span class="field-icon">✦</span>
-            <input
-              type="text"
-              id="field-name"
-              name="name"
-              placeholder="이름 또는 닉네임"
-              autocomplete="name"
-            >
+            <input type="text" id="field-name" name="이름_Name" placeholder="이름 또는 닉네임" autocomplete="name" required>
           </div>
           <div class="field-wrap">
             <span class="field-icon">✉</span>
-            <input
-              type="email"
-              id="field-email"
-              name="email"
-              placeholder="이메일 주소 (오픈 알림 수신)"
-              autocomplete="email"
-            >
+            <input type="email" id="field-email" name="이메일_Email" placeholder="이메일 주소 (오픈 알림 수신)" autocomplete="email" required>
           </div>
         </div>
 
         <button type="submit" class="cta-btn" id="cta-btn">
           🚀 무료로 사전 예약하고 오픈 알림 받기
         </button>
-
         <p class="form-note">스팸 없음 · 언제든 구독 취소 가능 · 100% 무료</p>
       </form>
     </div>
   </section>
 
-</div><!-- /site-wrapper -->
+</div>
 
-<!-- Footer -->
 <footer>
   <div class="footer-logo">하늘下</div>
   <div class="footer-tagline">Same Sky · Borderless Opportunity</div>
@@ -1498,7 +1449,6 @@ footer {
   <div class="footer-copy">© 2026 Haneul-Ha Inc. · 하늘下 · 서울 × 도쿄</div>
 </footer>
 
-<!-- ── SUCCESS MODAL ── -->
 <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-box">
     <div class="modal-confetti"></div>
@@ -1526,15 +1476,14 @@ footer {
     H = canvas.height = window.innerHeight;
     initStars();
   }
-
   function initStars() {
     stars = [];
     const count = Math.floor((W * H) / 6000);
     for (let i = 0; i < count; i++) {
       stars.push({
-        x:     Math.random() * W,
-        y:     Math.random() * H,
-        r:     Math.random() * 1.2 + 0.2,
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.2,
         alpha: Math.random() * 0.6 + 0.1,
         speed: Math.random() * 0.3 + 0.05,
         drift: (Math.random() - 0.5) * 0.1,
@@ -1542,7 +1491,6 @@ footer {
       });
     }
   }
-
   function draw(ts) {
     ctx.clearRect(0, 0, W, H);
     stars.forEach(s => {
@@ -1560,26 +1508,65 @@ footer {
     });
     raf = requestAnimationFrame(draw);
   }
-
   window.addEventListener('resize', resize);
   resize();
   raf = requestAnimationFrame(draw);
 })();
 
 /* ═══════════════════════════════════════
-   SCROLL REVEAL
+   SCROLL REVEAL & REAL-TIME COUNT ANIMATION
 ═══════════════════════════════════════ */
 (function() {
   const items = document.querySelectorAll('.reveal');
+  
+  // ★ 기능 보완: 날짜가 지남에 따라 가상의 기본 예약 숫자가 동적으로 자동 증가하여 생동감을 줍니다.
+  const baseDate = new Date('2026-01-01').getTime();
+  const today = new Date().getTime();
+  const daysPassed = Math.floor((today - baseDate) / (1000 * 60 * 60 * 24));
+  
+  const currentJobseekers = 3240 + (daysPassed * 7); 
+  const currentEmployers = 184 + (daysPassed * 1);
+  
+  document.getElementById('stat-jobseekers').setAttribute('data-target', currentJobseekers);
+  document.getElementById('stat-employers').setAttribute('data-target', currentEmployers);
+
+  // 숫자가 드르륵 카운트업 되는 부드러운 애니메이션 효과
+  function animateCount(el) {
+    const target = parseInt(el.getAttribute('data-target'));
+    let current = 0;
+    const increment = Math.ceil(target / 40);
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        el.innerText = target.toLocaleString() + "+";
+        clearInterval(timer);
+      } else {
+        el.innerText = current.toLocaleString() + "+";
+      }
+    }, 25);
+  }
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        setTimeout(() => {
+          e.target.classList.add('visible');
+          const numEl = e.target.querySelector('.stat-num');
+          if (numEl && numEl.innerText === '0') {
+            animateCount(numEl);
+          }
+        }, i * 60);
         io.unobserve(e.target);
       }
     });
   }, { threshold: 0.12 });
+  
   items.forEach(el => io.observe(el));
+  
+  document.querySelectorAll('.stat-item').forEach(item => {
+    const num = item.querySelector('.stat-num');
+    if(num && num.id) animateCount(num);
+  });
 })();
 
 /* ═══════════════════════════════════════
@@ -1605,7 +1592,6 @@ footer {
     showHint(null);
     setTimeout(() => { card.style.transition = ''; }, 500);
   }
-
   function flyCard(dir) {
     const tx = dir === 'like' ? 400 : -400;
     card.style.transition = 'transform 0.45s ease-in, opacity 0.45s';
@@ -1614,10 +1600,8 @@ footer {
     showHint(dir);
     setTimeout(() => { resetCard(); card.style.opacity = '1'; }, 680);
   }
-
-  // Drag / touch on card
   function onDragStart(e) {
-    if (e.type === 'touchstart') return; // handle separately
+    if (e.type === 'touchstart') return;
     isDragging = true;
     startX = e.clientX;
     card.style.transition = 'none';
@@ -1628,25 +1612,19 @@ footer {
     currentX = e.clientX - startX;
     const rot = currentX * 0.08;
     card.style.transform = `translateX(${currentX}px) rotate(${rot}deg)`;
-    if (currentX > 40)       showHint('like');
-    else if (currentX < -40) showHint('pass');
-    else                     showHint(null);
+    if (currentX > 40) showHint('like'); else if (currentX < -40) showHint('pass'); else showHint(null);
   }
   function onDragEnd() {
     if (!isDragging) return;
     isDragging = false;
     card.style.cursor = 'grab';
-    if (currentX > 80)       flyCard('like');
-    else if (currentX < -80) flyCard('pass');
-    else                     resetCard();
+    if (currentX > 80) flyCard('like'); else if (currentX < -80) flyCard('pass'); else resetCard();
     currentX = 0;
   }
 
   card.addEventListener('mousedown', onDragStart);
   window.addEventListener('mousemove', onDragMove);
   window.addEventListener('mouseup',   onDragEnd);
-
-  // Touch events
   card.addEventListener('touchstart', e => { startX = e.touches[0].clientX; card.style.transition = 'none'; }, { passive: true });
   card.addEventListener('touchmove', e => {
     currentX = e.touches[0].clientX - startX;
@@ -1655,13 +1633,10 @@ footer {
     if (currentX > 40) showHint('like'); else if (currentX < -40) showHint('pass'); else showHint(null);
   }, { passive: true });
   card.addEventListener('touchend', () => {
-    if (currentX > 80) flyCard('like');
-    else if (currentX < -80) flyCard('pass');
-    else resetCard();
+    if (currentX > 80) flyCard('like'); else if (currentX < -80) flyCard('pass'); else resetCard();
     currentX = 0;
   });
 
-  // Buttons
   btnLike.addEventListener('click',  () => flyCard('like'));
   btnPass.addEventListener('click',  () => flyCard('pass'));
   btnSuper.addEventListener('click', () => {
@@ -1674,7 +1649,7 @@ footer {
 })();
 
 /* ═══════════════════════════════════════
-   FORM & MODAL
+   FORM & MODAL (DATA SUBMISSION INTEGRATION)
 ═══════════════════════════════════════ */
 (function() {
   const form       = document.getElementById('reserve-form');
@@ -1682,10 +1657,9 @@ footer {
   const closeBtn   = document.getElementById('modal-close');
   const nameField  = document.getElementById('field-name');
   const emailField = document.getElementById('field-email');
+  const submitBtn  = document.getElementById('cta-btn');
 
-  function isValidEmail(v) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
-  }
+  function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
   function shakeField(el) {
     el.style.transition = 'transform 0.08s';
     el.style.transform  = 'translateX(-6px)';
@@ -1698,49 +1672,59 @@ footer {
     e.preventDefault();
     const name  = nameField.value.trim();
     const email = emailField.value.trim();
+    const checkedRole = document.querySelector('input[name="참여유형_Role"]:checked').value;
     let ok = true;
 
     if (!name) { shakeField(nameField);  ok = false; }
     if (!isValidEmail(email)) { shakeField(emailField); ok = false; }
     if (!ok) return;
 
-    // Netlify Forms에 fetch로 전송
-    const formData = new FormData(form);
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData).toString()
-    })
-    .then(() => {
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    })
-    .catch(() => {
-      // 전송 실패해도 모달은 표시 (UX 유지)
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+    submitBtn.innerText = "⏳ 처리 중...";
+    submitBtn.disabled = true;
+
+    // ★ 핵심 수정: Formspree 서버로 유저 데이터 연동 및 전송
+    const data = new FormData(form);
+    fetch(form.action, {
+      method: form.method,
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        // 성공 팝업 모달 노출
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // ★ 핵심 기능: 제출과 동시에 화면 위의 상단 숫자가 실시간으로 +1 올라갑니다!
+        if (checkedRole === "구직자/워홀러") {
+          const jobCounter = document.getElementById('stat-jobseekers');
+          const currentNum = parseInt(jobCounter.innerText.replace(/,/g, ''));
+          jobCounter.innerText = (currentNum + 1).toLocaleString() + "+";
+        } else {
+          const empCounter = document.getElementById('stat-employers');
+          const currentNum = parseInt(empCounter.innerText.replace(/,/g, ''));
+          empCounter.innerText = (currentNum + 1).toLocaleString() + "+";
+        }
+      } else {
+        alert("데이터 전송 중 문제가 발생했습니다. 다시 한번 시도해 주세요.");
+      }
+    }).catch(error => {
+      alert("네트워크 오류가 발생했습니다. 인터넷 연결을 확인해 주세요.");
+    }).finally(() => {
+      submitBtn.innerText = "🚀 무료로 사전 예약하고 오픈 알림 받기";
+      submitBtn.disabled = false;
     });
   });
 
   function closeModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
-    // Reset form
     form.reset();
   }
-
   closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) closeModal();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-  });
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
 })();
 
-/* ═══════════════════════════════════════
-   SMOOTH NAV HEIGHT FIX ON MOBILE
-═══════════════════════════════════════ */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
